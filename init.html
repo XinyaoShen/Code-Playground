@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>init</title>
+    <meta charset="utf-8">
+    <title>init</title>
 </head>
 <body>
 <canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;"></canvas>
@@ -57,10 +57,10 @@
 
 
     controllerConstructor = function () {
-        this.getRandomNum = function(Min,Max) {
+        this.getRandomNum = function (Min, Max) {
             var Range = Max - Min;
             var Rand = Math.random();
-            return(Min + Math.round(Rand * Range));
+            return (Min + Math.round(Rand * Range));
         };
         this.init = function (height, width) {
             this.width = width;
@@ -69,10 +69,12 @@
         };
         this.createMap = function (height, width) {
             Controller.init(height, width);
-            this.sx = this.getRandomNum(0, this.height - 1); this.sy = this.getRandomNum(0, this.width - 1);
+            this.sx = this.getRandomNum(0, this.height - 1);
+            this.sy = this.getRandomNum(0, this.width - 1);
             do {
-                this.ex = this.getRandomNum(0, this.height - 1); this.ey = this.getRandomNum(0, this.width - 1);
-            } while(this.ex === this.sx && this.ey === this.sy);
+                this.ex = this.getRandomNum(0, this.height - 1);
+                this.ey = this.getRandomNum(0, this.width - 1);
+            } while (this.ex === this.sx && this.ey === this.sy);
 
             var vis = new Array(this.height);
             for (var i = 0; i < this.height; ++i) {
@@ -123,16 +125,21 @@
                 var tx = ex, ty = ey;
                 do {
                     var tmp = pre[tx][ty];
-                    tx = tmp[0]; ty = tmp[1];
+                    tx = tmp[0];
+                    ty = tmp[1];
                     if (tx === sx && ty === sy) break;
                     View.Paint_grid(tx, ty, "grey");
                 } while (true);
 
-                window.loop_tx = ex; window.loop_ty = ey;
-                window.loop_pre = pre; window.loop_sx = sx; window.loop_sy = sy;
-                window.Loop = function() {
+                window.loop_tx = ex;
+                window.loop_ty = ey;
+                window.loop_pre = pre;
+                window.loop_sx = sx;
+                window.loop_sy = sy;
+                window.Loop = function () {
                     var tmp = loop_pre[loop_tx][loop_ty];
-                    loop_tx = tmp[0]; loop_ty = tmp[1];
+                    loop_tx = tmp[0];
+                    loop_ty = tmp[1];
                     if (loop_tx === loop_sx && loop_ty === loop_sy) {
                         clearInterval(Interval);
                         return;
