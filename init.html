@@ -1,60 +1,158 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8"> 
-	<title>init</title> 
+	<meta charset="utf-8">
+	<title>init</title>
 </head>
 <body>
-	<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;"></canvas>   
-	<div id="addT"></div>
-	<div id="addB"></div>
-	<div id="addB"></div>
+<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;"></canvas>
+<div id="addT"></div>
+<div id="addB"></div>
 </body>
 <script type="text/javascript">
-	var c=document.getElementById("myCanvas");
-	var ctx=c.getContext("2d");
-	function init(width, height){
-		for (var i=1;i<width;i++){
-			grid_width=600/width;
-			ctx.moveTo(i*grid_width,0);
-			ctx.lineTo(i*grid_width,600);
-			
-		}
-		for(var i=1;i<height;i++){
-			grid_height=600/height;
-			ctx.moveTo(0,i*grid_height);
-			ctx.lineTo(600,i*grid_height);
-		}
-		ctx.stroke();
-	}
-	function Paint_grid(i, j, color){
-		ctx.fillStyle=color;
-		ctx.fillRect(i*grid_width,j*grid_height,grid_width,grid_height);
-	}
-	function Paint_Circle(i,j,color){//paint函数
-		ctx.strokeStyle=color;
-		var grd=ctx.createRadialGradient(25+50*i,50*j+25,30,25+50*i,50*j+25,0);
-		grd.addColorStop(0,"blue");
-		grd.addColorStop(1,"white");
-		ctx.fillStyle = grd;
-		ctx.beginPath();
-		ctx.arc(25+50*i,50*j+25,25,0,2*Math.PI);
-		ctx.fill();
-		ctx.stroke();
-	}
-	function addTextbox(name,x,y,height,width){
-	   var html ="<input type=\"textbox\" value=\"" + name + "\" style=\"position:absolute;left:"+ x +";top:"+ y +";height:"+ height +";width:"+ width +";\" >";
-	   document.getElementById("addT").innerHTML+=html;
-	}
-	addTextbox('Restart','800px','400px','30px','100px');
-	function addButton(name,x,y,height,width){
-	   var html ="<button type=\"button\" style=\"position:absolute;left:"+ x + ";top:"+ y +";height:"+ height +";width:"+ width +";\" >" + name + "</button>";
-	   document.getElementById("addB").innerHTML+=html;
-	}
-	init(10, 10);
-	Paint_grid(0, 1, "black");
-	Paint_Circle(7,7, "blue");//在此调用paint(i,j,color)即可
-	addButton('Start','800px','200px','50px','80px');
-	addButton('End','800px','300px','50px','80px');
+
+    viewContructor = function () {
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var grid_width, grid_height;
+        this.init = function (width, height) {
+            c.height = c.height; // reset height to clear canvas
+            for (var i = 1; i < width; i++) {
+                grid_width = 600 / width;
+                ctx.moveTo(i * grid_width, 0);
+                ctx.lineTo(i * grid_width, 600);
+            }
+            for (i = 1; i < height; i++) {
+                grid_height = 600 / height;
+                ctx.moveTo(0, i * grid_height);
+                ctx.lineTo(600, i * grid_height);
+            }
+            ctx.stroke();
+        };
+        this.Paint_grid = function (i, j, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(j * grid_height, i * grid_width, grid_width, grid_height);
+        };
+        this.Paint_Circle = function (j, i, color) {//paint_circle函数
+            ctx.strokeStyle = color;
+            var grd = ctx.createRadialGradient(grid_width / 2 + grid_width * i, grid_height * j + grid_height / 2, grid_width / 2, grid_width / 2 + grid_width * i, grid_height * j + grid_height / 2, 0);
+            grd.addColorStop(0, color);
+            grd.addColorStop(1, "white");
+            ctx.fillStyle = grd;
+            ctx.beginPath();
+            ctx.arc(grid_width / 2 + grid_width * i, grid_height * j + grid_height / 2, grid_width / 2, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+        };
+        // 这个大小调整好像是无效的
+        this.addTextbox = function (name, x, y, height, width) {
+            var html = "<input type=\"textbox\" value=\"" + name + "\" style=\"position:absolute;left:" + x + ";top:" + y + ";height:" + height + ";width:" + width + ";\" >";
+            document.getElementById("addT").innerHTML += html;
+        };
+        this.addButton = function (name, x, y, height, width) {
+            var html = "<button type=\"button\" onclick = \"Controller.createMap(10, 10)\" style=\"position:absolute;left:" + x + ";top:" + y + ";height:" + height + ";width:" + width + ";\" >" + name + "</button>";
+            document.getElementById("addB").innerHTML += html;
+        };
+    };
+
+
+    controllerConstructor = function () {
+        this.getRandomNum = function(Min,Max) {
+            var Range = Max - Min;
+            var Rand = Math.random();
+            return(Min + Math.round(Rand * Range));
+        };
+        this.init = function (height, width) {
+            this.width = width;
+            this.height = height;
+            View.init(height, width);
+        };
+        this.createMap = function (height, width) {
+            Controller.init(height, width);
+            this.sx = this.getRandomNum(0, this.height - 1); this.sy = this.getRandomNum(0, this.width - 1);
+            do {
+                this.ex = this.getRandomNum(0, this.height - 1); this.ey = this.getRandomNum(0, this.width - 1);
+            } while(this.ex === this.sx && this.ey === this.sy);
+
+            var vis = new Array(this.height);
+            for (var i = 0; i < this.height; ++i) {
+                vis[i] = new Array(this.width);
+                for (var j = 0; j < this.width; ++j) vis[i][j] = 0;
+            }
+
+            Map = new Array(this.height);
+            for (i = 0; i < this.height; ++i) {
+                Map[i] = new Array(this.width);
+                for (j = 0; j < this.width; ++j) {
+                    if (i === this.sx && j === this.sy || i === this.ex && j === this.ey) Map[i][j] = 1;
+                    else Map[i][j] = this.getRandomNum(0, 1);
+                }
+            }
+
+            var sx = this.sx, sy = this.sy, ex = this.ex, ey = this.ey;
+            var height = this.height, width = this.width;
+
+            var pre = Array(height);
+            for (i = 0; i < height; ++i)
+                pre[i] = new Array(width);
+            var found = false;
+
+            function dfs(x, y) {
+                var dx = [0, 0, -1, 1], dy = [1, -1, 0, 0];
+                for (var i = 0; i < 4; ++i) {
+                    var fx = x + dx[i], fy = y + dy[i];
+                    if (fx >= 0 && fx < height && fy >= 0 && fy < width && vis[fx][fy] !== 1 && Map[fx][fy] === 1) {
+                        pre[fx][fy] = [x, y];
+                        vis[fx][fy] = 1;
+                        if (fx === ex && fy === ey) {
+                            found = true;
+                            return;
+                        }
+                        dfs(fx, fy);
+                    }
+                }
+            }
+
+            dfs(this.sx, this.sy);
+
+            if (!found) View.addTextbox('No Found', 100, 200, 200, 200);
+            else {
+                View.addTextbox('Found', 100, 200, 200, 200);
+                View.Paint_grid(sx, sy, "yellow");
+                View.Paint_grid(ex, ey, "green");
+                var tx = ex, ty = ey;
+                do {
+                    var tmp = pre[tx][ty];
+                    tx = tmp[0]; ty = tmp[1];
+                    if (tx === sx && ty === sy) break;
+                    View.Paint_grid(tx, ty, "grey");
+                } while (true);
+
+                window.loop_tx = ex; window.loop_ty = ey;
+                window.loop_pre = pre; window.loop_sx = sx; window.loop_sy = sy;
+                window.Loop = function() {
+                    var tmp = loop_pre[loop_tx][loop_ty];
+                    loop_tx = tmp[0]; loop_ty = tmp[1];
+                    if (loop_tx === loop_sx && loop_ty === loop_sy) {
+                        clearInterval(Interval);
+                        return;
+                    }
+                    View.Paint_grid(loop_tx, loop_ty, "purple");
+                };
+                window.Interval = setInterval("Loop()", 500);
+            }
+        };
+    };
+
+    View = new viewContructor();
+    Controller = new controllerConstructor();
+
+    Controller.createMap(10, 10);
+    /*View.Paint_grid(0, 1, "black");
+    View.Paint_grid(2, 3, "red");
+    View.Paint_Circle(2, 7, "blue");*/
+    View.addButton('ReStart', '800px', '200px', '50px', '80px');
+    //View.addButton('End', '800px', '300px', '50px', '80px');
+
 </script>
 </html>
