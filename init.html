@@ -1,70 +1,60 @@
 <!DOCTYPE html>
 <html>
-<head> 
-<meta charset="utf-8"> 
-<title>init</title> 
+<head>
+	<meta charset="utf-8"> 
+	<title>init</title> 
 </head>
 <body>
-<canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>   
-<div id="addT"></div>
-<div id="addB"></div>
-<div id="addB"></div>
-<script type="text/javascript">
-var c=document.getElementById("myCanvas");
-var ctx=c.getContext("2d");
-for (var i=1;i<10;i++)
-{
-	ctx.moveTo(i*50,0);
-	ctx.lineTo(i*50,500);
-	ctx.moveTo(0,i*50);
-	ctx.lineTo(500,i*50);
-}//绘制网格
-ctx.stroke();
-ctx.fillStyle="#FFFF00";
-ctx.fillRect(0,0,50,50);
-ctx.fillStyle="#00FF00";
-ctx.fillRect(450,450,500,500);
-/*ctx.fillStyle="#000000";
-ctx.fillRect(150,0,150,100);
-ctx.fillRect(250,250,250,100);
-ctx.fillRect(300,400,100,100);
-ctx.fillRect(100,300,100,100);
-ctx.fillRect(0,400,200,100);
-ctx.fillRect(0,150,100,100);
-ctx.fillRect(400,0,100,200);
-ctx.fillRect(350,150,50,50);*/
-function init(i, j){
-	ctx.fillStyle="#000000";
-	ctx.fillRect(i*50,j*50,50,50);
-}
-init(2, 3);
-function paint(i,j){//paint函数
-ctx.strokeStyle = "blue";
-var grd=ctx.createRadialGradient(25+50*i,50*j+25,30,25+50*i,50*j+25,0);
-grd.addColorStop(0,"blue");
-grd.addColorStop(1,"white");
-ctx.fillStyle = grd;
-ctx.beginPath();
-ctx.arc(25+50*i,50*j+25,25,0,2*Math.PI);
-ctx.fill();
-ctx.stroke();
-}
-paint(7,7);//在此调用paint(i,j)即可
-</script>
-<script type="text/javascript">
-function addTextbox(name,x,y,height,width){
-   var html ="<input type=\"textbox\" value=\"" + name + "\" style=\"position:absolute;left:"+ x +";top:"+ y +";height:"+ height +";width:"+ width +";\" >";
-   document.getElementById("addT").innerHTML+=html;
-}
-addTextbox('Restart','600px','400px','30px','100px');
-</script>
-<script type="text/javascript">
-function addButton(name,x,y,height,width){
-   var html ="<button type=\"button\" style=\"position:absolute;left:"+ x + ";top:"+ y +";height:"+ height +";width:"+ width +";\" >" + name + "</button>";
-   document.getElementById("addB").innerHTML+=html;
-}
-addButton('Restart','600px','200px','50px','80px');
-addButton('end','1000px','400px','50px','80px');
-</script>
+	<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;"></canvas>   
+	<div id="addT"></div>
+	<div id="addB"></div>
+	<div id="addB"></div>
 </body>
+<script type="text/javascript">
+	var c=document.getElementById("myCanvas");
+	var ctx=c.getContext("2d");
+	function init(width, height){
+		for (var i=1;i<width;i++){
+			grid_width=600/width;
+			ctx.moveTo(i*grid_width,0);
+			ctx.lineTo(i*grid_width,600);
+			
+		}
+		for(var i=1;i<height;i++){
+			grid_height=600/height;
+			ctx.moveTo(0,i*grid_height);
+			ctx.lineTo(600,i*grid_height);
+		}
+		ctx.stroke();
+	}
+	function Paint_grid(i, j, color){
+		ctx.fillStyle=color;
+		ctx.fillRect(i*grid_width,j*grid_height,grid_width,grid_height);
+	}
+	function Paint_Circle(i,j,color){//paint函数
+		ctx.strokeStyle=color;
+		var grd=ctx.createRadialGradient(25+50*i,50*j+25,30,25+50*i,50*j+25,0);
+		grd.addColorStop(0,"blue");
+		grd.addColorStop(1,"white");
+		ctx.fillStyle = grd;
+		ctx.beginPath();
+		ctx.arc(25+50*i,50*j+25,25,0,2*Math.PI);
+		ctx.fill();
+		ctx.stroke();
+	}
+	function addTextbox(name,x,y,height,width){
+	   var html ="<input type=\"textbox\" value=\"" + name + "\" style=\"position:absolute;left:"+ x +";top:"+ y +";height:"+ height +";width:"+ width +";\" >";
+	   document.getElementById("addT").innerHTML+=html;
+	}
+	addTextbox('Restart','800px','400px','30px','100px');
+	function addButton(name,x,y,height,width){
+	   var html ="<button type=\"button\" style=\"position:absolute;left:"+ x + ";top:"+ y +";height:"+ height +";width:"+ width +";\" >" + name + "</button>";
+	   document.getElementById("addB").innerHTML+=html;
+	}
+	init(10, 10);
+	Paint_grid(0, 1, "black");
+	Paint_Circle(7,7, "blue");//在此调用paint(i,j,color)即可
+	addButton('Start','800px','200px','50px','80px');
+	addButton('End','800px','300px','50px','80px');
+</script>
 </html>
