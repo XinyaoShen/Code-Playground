@@ -57,6 +57,7 @@
 
 
     controllerConstructor = function () {
+
         this.getRandomNum = function (Min, Max) {
             var Range = Max - Min;
             var Rand = Math.random();
@@ -68,6 +69,7 @@
             View.init(height, width);
         };
         this.createMap = function (height, width) {
+            clearInterval(window.Interval);
             Controller.init(height, width);
             this.sx = this.getRandomNum(0, this.height - 1);
             this.sy = this.getRandomNum(0, this.width - 1);
@@ -88,8 +90,12 @@
                 for (j = 0; j < this.width; ++j) {
                     if (i === this.sx && j === this.sy || i === this.ex && j === this.ey) Map[i][j] = 1;
                     else Map[i][j] = this.getRandomNum(0, 1);
+                    if (Map[i][j] == 0) View.Paint_grid(i, j, "black");
                 }
             }
+
+            View.Paint_grid(this.sx, this.sy, "yellow");
+            View.Paint_grid(this.ex, this.ey, "green");
 
             var sx = this.sx, sy = this.sy, ex = this.ex, ey = this.ey;
             var height = this.height, width = this.width;
@@ -120,8 +126,6 @@
             if (!found) View.addTextbox('No Found', 100, 200, 200, 200);
             else {
                 View.addTextbox('Found', 100, 200, 200, 200);
-                View.Paint_grid(sx, sy, "yellow");
-                View.Paint_grid(ex, ey, "green");
                 var tx = ex, ty = ey;
                 do {
                     var tmp = pre[tx][ty];
@@ -154,7 +158,7 @@
     View = new viewContructor();
     Controller = new controllerConstructor();
 
-    Controller.createMap(10, 10);
+    Controller.init(10, 10);
     /*View.Paint_grid(0, 1, "black");
     View.Paint_grid(2, 3, "red");
     View.Paint_Circle(2, 7, "blue");*/
