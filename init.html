@@ -10,6 +10,10 @@
 <div id="addB"></div>
 </body>
 <script type="text/javascript">
+    Model = {
+        height: 10,
+        width: 10
+    };
 
     viewContructor = function () {
         var c = document.getElementById("myCanvas");
@@ -50,7 +54,7 @@
             document.getElementById("addT").innerHTML += html;
         };
         this.addButton = function (name, x, y, height, width) {
-            var html = "<button type=\"button\" onclick = \"Controller.createMap(10, 10)\" style=\"position:absolute;left:" + x + ";top:" + y + ";height:" + height + ";width:" + width + ";\" >" + name + "</button>";
+            var html = "<button type=\"button\" onclick = \"Controller.createMap();\" style=\"position:absolute;left:" + x + ";top:" + y + ";height:" + height + ";width:" + width + ";\" >" + name + "</button>";
             document.getElementById("addB").innerHTML += html;
         };
     };
@@ -64,13 +68,17 @@
             return (Min + Math.round(Rand * Range));
         };
         this.init = function (height, width) {
+            height = arguments[0] ? arguments[0] : Model.height;
+            width = arguments[1] ? arguments[1] : Model.width;
             this.width = width;
             this.height = height;
             View.init(height, width);
         };
         this.createMap = function (height, width) {
+            height = arguments[0] ? arguments[0] : Model.height;
+            width = arguments[1] ? arguments[1] : Model.width;
             clearInterval(window.Interval);
-            Controller.init(height, width);
+            Controller.init();
             this.sx = this.getRandomNum(0, this.height - 1);
             this.sy = this.getRandomNum(0, this.width - 1);
             do {
@@ -158,10 +166,7 @@
     View = new viewContructor();
     Controller = new controllerConstructor();
 
-    Controller.init(10, 10);
-    /*View.Paint_grid(0, 1, "black");
-    View.Paint_grid(2, 3, "red");
-    View.Paint_Circle(2, 7, "blue");*/
+    Controller.init();
     View.addButton('ReStart', '800px', '200px', '50px', '80px');
     //View.addButton('End', '800px', '300px', '50px', '80px');
 
