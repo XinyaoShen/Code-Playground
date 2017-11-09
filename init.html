@@ -10,12 +10,13 @@
 <div id="addB"></div>
 </body>
 <script type="text/javascript">
-    Model = {
+    'use strict';
+    var Model = {
         height: 10,
         width: 10
     };
 
-    viewContructor = function () {
+    var viewContructor = function () {
         var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
         var grid_width, grid_height;
@@ -50,17 +51,19 @@
         };
         // 这个大小调整好像是无效的
         this.addTextbox = function (name, x, y, height, width) {
-            var html = "<input type=\"textbox\" value=\"" + name + "\" style=\"position:absolute;left:" + x + ";top:" + y + ";height:" + height + ";width:" + width + ";\" >";
-            document.getElementById("addT").innerHTML += html;
+            document.getElementById("addT").innerHTML +=
+                "<input type=\"textbox\" value=\"" + name + "\" style=\"position:absolute;left:"
+                + x + ";top:" + y + ";height:" + height + ";width:" + width + ";\" >";
         };
         this.addButton = function (name, x, y, height, width) {
-            var html = "<button type=\"button\" onclick = \"Controller.createMap();\" style=\"position:absolute;left:" + x + ";top:" + y + ";height:" + height + ";width:" + width + ";\" >" + name + "</button>";
-            document.getElementById("addB").innerHTML += html;
+            document.getElementById("addB").innerHTML += "<button type=\"button\" onclick = \"Controller.createMap();\" style=\"position:absolute;left:"
+                + x + ";top:" + y + ";height:" + height +
+                ";width:" + width + ";\" >" + name + "</button>";
         };
     };
 
 
-    controllerConstructor = function () {
+    var controllerConstructor = function () {
 
         this.getRandomNum = function (Min, Max) {
             var Range = Max - Min;
@@ -165,12 +168,11 @@
         };
     };
 
-    View = new viewContructor();
-    Controller = new controllerConstructor();
+    var View = new viewContructor();
+    var Controller = new controllerConstructor();
 
     Controller.init();
     View.addButton('ReStart', '800px', '200px', '50px', '80px');
     //View.addButton('End', '800px', '300px', '50px', '80px');
-
 </script>
 </html>
