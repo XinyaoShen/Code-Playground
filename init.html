@@ -92,13 +92,13 @@
                 for (var j = 0; j < this.width; ++j) vis[i][j] = 0;
             }
 
-            Map = new Array(this.height);
+            var Map = new Array(this.height);
             for (i = 0; i < this.height; ++i) {
                 Map[i] = new Array(this.width);
                 for (j = 0; j < this.width; ++j) {
                     if (i === this.sx && j === this.sy || i === this.ex && j === this.ey) Map[i][j] = 1;
                     else Map[i][j] = this.getRandomNum(0, 1);
-                    if (Map[i][j] == 0) View.Paint_grid(i, j, "black");
+                    if (Map[i][j] === 0) View.Paint_grid(i, j, "black");
                 }
             }
 
@@ -106,9 +106,10 @@
             View.Paint_grid(this.ex, this.ey, "green");
 
             var sx = this.sx, sy = this.sy, ex = this.ex, ey = this.ey;
-            var height = this.height, width = this.width;
+            height = this.height;
+            width = this.width;
 
-            var pre = Array(height);
+            var pre = new Array(height);
             for (i = 0; i < height; ++i)
                 pre[i] = new Array(width);
             var found = false;
@@ -150,12 +151,13 @@
                 window.loop_sy = sy;
                 window.Loop = function () {
                     var tmp = loop_pre[loop_tx][loop_ty];
-                    loop_tx = tmp[0];
-                    loop_ty = tmp[1];
-                    if (loop_tx === loop_sx && loop_ty === loop_sy) {
+                    window.loop_tx = tmp[0];
+                    window.loop_ty = tmp[1];
+                    if (window.loop_tx === window.loop_sx && window.loop_ty === window.loop_sy) {
                         clearInterval(Interval);
                         return;
                     }
+                    //View.Paint_Circle(loop_tx, loop_ty, "purple");
                     View.Paint_grid(loop_tx, loop_ty, "purple");
                 };
                 window.Interval = setInterval("Loop()", 500);
