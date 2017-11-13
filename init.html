@@ -27,10 +27,10 @@
     /******** START OF MOCK *********/
     var mockData = {
         /* map format:
-            row[0][0], col[0][0], row[0][1], col[0][1], ..., row[0][m], col[0][m]
+            row[0][0], col[0][0], row[0][1], col[0][1], ..., row[0][m], 
+            col[0][m]
             ....
             row[n][0], col[n][0], row[n][1], col[n][1], ...
-        
         NOTE:
         * row[i][j]=1 means there is a segment above the cell (i,j)
         * col[i][j]=1 means there is a segment on the left of (i,j)
@@ -52,7 +52,6 @@
         source: [2, 3],
         dest: [5, 7]
     };
-
     var code = `function solveMaze(map, sx, sy, tx, ty) {
         report("left");
         report("right");
@@ -62,17 +61,11 @@
     }
     `;  // use report to tell the computer what to do now
     document.getElementById("code").value = code;
-
     /******** END OF MOCK *********/
-
-
-
-
     var outputQueue = [];
     function report(s) {
         outputQueue.push(s);
     }
-
     viewConstructor = function () {
         var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
@@ -109,7 +102,6 @@
             ctx.stroke();
         };
     };
-
     controllerConstructor = function () {
         this.getRandomNum = function (Min, Max) {
             var Range = Max - Min;
@@ -169,17 +161,14 @@
             }.bind(this), 500);
         };
     };
-
     var view = new viewConstructor();
     var controller = new controllerConstructor();
     controller.initMap(view, mockData.map, mockData.source, mockData.dest);
-
     var submitBtn = document.getElementById("submit");
     var outputText = document.getElementById("output");
     submitBtn.onclick = function (event) {
         controller.run();
         controller.displayResult();
     }
-
 </script>
 </html>
