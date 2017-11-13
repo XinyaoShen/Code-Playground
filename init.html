@@ -3,18 +3,28 @@
     <meta charset="utf-8">
     <title>Magic Sword</title>
 </head>
+<style type="text/css">
+    .main-div{
+        position: absolute;
+        left: 800px;
+        bottom: 30px;
+    }
+    .main-textarea{
+        height: 300px;
+        width: 400px;
+    }
+</style>
 <body>
-    <div>
-        <textarea id="code" rows="7">Code</textarea>
-        <textarea id="output" rows="7">Output</textarea>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+    <div class="main-div">
+        <textarea id="code" rows="7" class="main-textarea">Code</textarea>
+        <textarea id="output" rows="7" class="main-textarea">Output</textarea>
         <button id="reset">Reset</button>
         <button id="submit">Submit</button>
     </div>
-    <canvas id="myCanvas" width="600" height="600"></canvas>
 </body>
 <script>
     /******** START OF MOCK *********/
-
     var mockData = {
         /* map format:
             row[0][0], col[0][0], row[0][1], col[0][1], ..., row[0][m], col[0][m]
