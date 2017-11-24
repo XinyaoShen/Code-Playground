@@ -1,6 +1,6 @@
 from threading import Thread
 
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
@@ -23,6 +23,8 @@ def login_view(request):
             user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is None:
             raise PermissionDenied
+        else:
+            login(request, user)
         return redirect(reverse('home'))
     return render(request, 'login.html')
 
