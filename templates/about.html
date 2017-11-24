@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<!-- About -->
+<div class="about">
+	 <div class="container">
+		 <h2>About</h2>
+		 <div class="about-info-grids">
+			 <div class="col-md-5 abt-pic">
+				 <img src="{% static "images/abt.jpg" %}" class="img-responsive" alt=""/>
+			 </div>
+			 <div class="col-md-7 abt-info-pic">
+				 <h3>Introduction of our team</h3>
+				 <p>Our team is made of college students who major in computer science and software engineering. We all enjoy coding and meantime hope others will like it as we do. Thus we build this website to encourage people do more doing and eventually fall in love with it.</p>
+				 <ul>
+					 <li>You can play the game by writing code.</li>
+					 <li>Your code will be built and then run in the window.</li>
+					 <li>You are allowed to use different programming languages.</li>
+				 </ul>
+			 </div>
+			 <div class="clearfix"></div>
+		 </div>
+		 <div class="testimonals">
+				<h3>What we're trying to do...</h3>
+				<div class="testimonal-grids">
+					 <div class="col-md-4 testimonal-grid">
+						 <div class="testi-info">
+						 <p>"blah  blah blah  blah blah  blah blah  blah "</p>
+						 <h4>Xinyao Shen</h4>
+						 </div>
+					 </div>
+					 <div class="col-md-4 testimonal-grid">
+						 <div class="testi-info">
+						 <p>"blah  blah blah  blah blah  blah blah  blah "</p>
+						 <h4>Yuge Zhang</h4>						 
+						 </div>
+					 </div>
+					 <div class="col-md-4 testimonal-grid">
+						 <div class="testi-info">
+						 <p>"blah  blah blah  blah blah  blah blah  blah "</p>
+						 <h4>Xinwu Hu</h4>
+						 </div>
+					 </div>
+					 <div class="clearfix"></div>
+				</div>
+		   </div>
+	 </div>
+</div>
+{% endblock %}

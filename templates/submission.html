@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="about">
+  <div class="container">
+    <h2>Submission #{{ submission.id }}</h2>
+    <p>Username: {{ submission.user.username }}</p>
+    <p>Language: {{ submission.get_lang_display }}</p>
+    <div>Code:
+      <pre><code>{{ submission.code }}</code></pre>
+    </div>
+    <br>
+    <p>Verdict: {{ submission.get_verdict_display }}</p>
+    <div>Running Input:
+      <pre><code id="input">{{ submission.running_input }}</code></pre>
+    </div>
+    <div>Running Result:
+      <pre><code id="ans">{{ submission.running_result }}</code></pre>
+    </div>
+    {% if submission.running_result %}
+      <button class="btn-primary" id="start-visual">Start Visualization</button>
+      <pre><code id="visual">{{ submission.running_result }}</code></pre>
+    {% endif %}
+  </div>
+  </div>
+
+  <script>
+
+{#  Map = $("#input").text().split('\n').slice(1);#}
+{#  Map = Map.slice(0, Map.length - 1);#}
+{#  var x = 0, y = 0;#}
+{##}
+{#  function pausecomp(millis)#}
+{#  {#}
+{#      var date = new Date();#}
+{#      var curDate = null;#}
+{#      do { curDate = new Date(); }#}
+{#      while(curDate-date < millis);#}
+{#  }#}
+{##}
+{#  $("#start-visual").click(function () {#}
+{#    var seq = $("#ans").text().split('\n');#}
+{#    for (var i = 0; i < seq.length; ++i) {#}
+{#      if (seq[i] == "left") y--;#}
+{#      else if (seq[i] == "right") y++;#}
+{#      else if (seq[i] == "up") x--;#}
+{#      else if (seq[i] == "down") x++;#}
+{#      var t = Map[x][y];#}
+{#      Map[x][y] = 'O';#}
+{#      updateHTML();#}
+{#      pausecomp(500);#}
+{#      Map[x][y] = t;#}
+{#    }#}
+{#  });#}
+{##}
+{#  function updateHTML() {#}
+{#    $("#visual").text(Map.join('\n'));#}
+{#  }#}
+{##}
+{#  updateHTML();#}
+  </script>
+
+{% endblock %}
