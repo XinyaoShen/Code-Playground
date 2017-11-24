@@ -17,7 +17,8 @@ def home_view(request):
 def login_view(request):
     if request.method == 'POST':
         if request.POST['tab-select'] == 'register':
-            user = User.objects.create_user(request.POST['user'], request.POST['email'], request.POST['pass'])
+            User.objects.create_user(request.POST['user'], request.POST['email'], request.POST['pass'])
+            user = authenticate(username=request.POST['user'], password=request.POST['pass'])
         else:
             user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is None:
